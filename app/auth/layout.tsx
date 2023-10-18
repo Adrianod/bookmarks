@@ -25,7 +25,7 @@ export default async function RootLayout({
     }
 
     return (
-        <main className={`max-w-sm py-10 mx-auto`}>
+        <main className={`max-w-sm py-10 mx-auto px-5`}>
             <BookmarkHeader className="mb-10 " />
             <Card>
                 {children}

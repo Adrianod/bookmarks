@@ -175,9 +175,6 @@ function short(text: string) {
     }
 }
 
-
-
-
 const Empty = () => {
     return (
         <div>

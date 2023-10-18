@@ -4,11 +4,12 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { SupabaseClient, createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { BookmarkIcon, FacebookIcon, FigmaIcon, FlameKindlingIcon, FolderIcon, GithubIcon, HeadphonesIcon, InstagramIcon, Loader, MoveUpIcon, TrafficCone, TwitchIcon, TwitterIcon, YoutubeIcon } from "lucide-react";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import BookmarkMenu from "./bookmark-menu";
+import { SupabaseAuthClient } from "@supabase/supabase-js/dist/module/lib/SupabaseAuthClient";
 
 export interface Bookmark {
     id: string;
@@ -19,7 +20,7 @@ export interface Bookmark {
     is_folder: boolean;
 }
 
-function fetchBookmarks(supabase, parent_id) {
+function fetchBookmarks(supabase: SupabaseClient, parent_id: string) {
     if (parent_id) {
         return supabase
             .from('bookmarks')
@@ -34,21 +35,19 @@ function fetchBookmarks(supabase, parent_id) {
 }
 
 function sortBookmarks(bookmarks: Bookmark[]) {
-
     const folders = bookmarks.filter(b => b.is_folder)
         .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
     const bkmarks = bookmarks.filter(b => !b.is_folder)
         .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
 
     return folders.concat(bkmarks)
-
 }
 
 export const BookmarkList = async ({ parent_id }: any) => {
     const supabase = createServerComponentClient({ cookies })
 
-    let { data: bookmarks } = await fetchBookmarks(supabase, parent_id)
-    bookmarks = sortBookmarks(bookmarks)
+    let { data: bookmarks } = await fetchBookmarks(supabase, parent_id);
+    bookmarks = sortBookmarks(bookmarks);
 
 
     if (bookmarks?.length === 0) {
@@ -77,7 +76,7 @@ function FolderItem({ bookmark }: { bookmark: Bookmark }) {
         <div className="flex ">
             <Link
                 href={`/dashboard/${bookmark.id}`}
-                className="rounded-md flex-col w-full px-3 py-2  hover:bg-accent "
+                className="rounded-md flex-col w-full px-3 py-2 hover:bg-accent"
             >
                 <div className="flex items-center space-x-3 text-sm">
                     <FolderIcon className="w-5 h-5 stroke-muted-foreground" />
@@ -109,11 +108,10 @@ function BookmarkItem({ bookmark }: { bookmark: Bookmark }) {
                                         <span className="text-muted-foreground block md:hidden">{short(bookmark.link)}</span>
                                     </>)
                                     : (<>
-                                        <span className=" font-medium">{bookmark.name}</span>
+                                        <span className="font-medium">{bookmark.name}</span>
                                         <span className="text-muted-foreground hidden md:block">{short(bookmark.link)}</span>
                                     </>)
                                 }
-
                             </div>
                         </Link>
                     </TooltipTrigger>

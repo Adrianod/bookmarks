@@ -65,7 +65,7 @@ export default function BookmarkMenu({ bookmark }: { bookmark: Bookmark }) {
                     <DialogHeader>
                         <DialogTitle>Delete {bookmark.is_folder ? "Folder" : "Bookmark"}</DialogTitle>
                         <DialogDescription>{bookmark.is_folder ? "Everything inside this folder will also be deleted." : ""}</DialogDescription>
-                        <DialogDescription>This can't be undone.</DialogDescription>
+                        <DialogDescription>{"This can't be undone."}</DialogDescription>
                     </DialogHeader>
                     <div className="bg-accent p-3 rounded-md">
                         <p>{bookmark.name}</p>

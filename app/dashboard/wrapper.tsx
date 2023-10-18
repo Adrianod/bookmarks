@@ -29,7 +29,8 @@ async function fetchPath(supabase, id) {
 
 
 export default async function Wrapper({ parent_id }: { parent_id: string | null }) {
-    const supabase = createServerComponentClient({ cookies })
+    const cookieStore = cookies()
+    const supabase = createServerComponentClient({ cookies: () => cookieStore })
     const folder = await fetchPath(supabase, parent_id)
 
     return (

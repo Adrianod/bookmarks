@@ -44,7 +44,8 @@ function sortBookmarks(bookmarks: Bookmark[]) {
 }
 
 export const BookmarkList = async ({ parent_id }: any) => {
-    const supabase = createServerComponentClient({ cookies })
+    const cookieStore = cookies()
+    const supabase = createServerComponentClient({ cookies: () => cookieStore })
 
     let { data: bookmarks } = await fetchBookmarks(supabase, parent_id);
     bookmarks = sortBookmarks(bookmarks);

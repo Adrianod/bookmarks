@@ -163,16 +163,7 @@ function GetIcon({ link, }: { link: string }) {
 
 
 function short(text: string) {
-    const splitted = text
-        .replace("https://", "")
-        .replace("www.", "")
-        .split("/")
-
-    if (splitted.length > 0) {
-        return splitted[0]
-    } else {
-        return text
-    }
+    return new URL(text).host
 }
 
 const Empty = () => {
